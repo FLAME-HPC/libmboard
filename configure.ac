@@ -213,7 +213,6 @@ LSC_NOREPEAT_SPACES([MEMLOG_CFLAGS])
 AC_CONFIG_FILES([Makefile])
 
 AC_OUTPUT([
-README
 Doxyfile_user
 Doxyfile_developer_serial
 Doxyfile_developer_parallel

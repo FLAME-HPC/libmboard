@@ -50,9 +50,9 @@ To compile the unit tests, you will also need:
 1. Configure the source using the ./configure script. This will prepare the 
    source code and check that all pre-requisites are met.
    
-   [root@stfc]# ./configure
+       # ./configure
    
-   -- Changing installation directory --
+   **Changing installation directory:**
    By default, the library will be configure for installation within your 
    system (typically in /usr/local for Linux systems). This will allow users
    to link to the library without having to specify the library location.
@@ -63,23 +63,23 @@ To compile the unit tests, you will also need:
    versions of the library), you can use the --prefix option to specify an
    alternative installation location. 
    
-   [lsc@stfc]$ ./configure --prefix=/home/lsc/build/libmboard
+       # ./configure --prefix=/home/lsc/build/libmboard
    
-   -- Disabling some components --
+   **Disabling some components:**
    You can disable the inclusion of unit tests (if you do not have CUnit)
    installed by including the --disable-tests option.
    
    You can also disable the compilation of parallel librarys (if you do not
    have pthreads and MPI support) by using the --disable-paralle option.
    
-   -- More options --
+   **More options:**
    For more configuration options, run "./configure --help".
    
 2. Once the configuration is successful, you can compile and install the 
    library.
    
-   [root@stfc]# make 
-   [root@stfc]# make install
+       # make 
+       # make install
    
    
 For more details on installation, see the 'INSTALL' file.
@@ -94,7 +94,7 @@ You can also browse the User Manual online at:
 http://www.softeng.cse.clrc.ac.uk/libmboard/
 
 
-##### Runing unit tests #####
+##### Running unit tests #####
 
 Compile the tests using "make test". Four tests binaries will be produced, 
 each testing different aspects of the library.
@@ -113,20 +113,20 @@ each testing different aspects of the library.
  Configure the package using --enable-coverage, and compile the code using 
  the "coverage" target
     
-    [lsc@stfc]$ ./configure --enable-coverage
-    [lsc@stfc]$ make coverage
+    # ./configure --enable-coverage
+    # make coverage
     
  If the code compiles and the tests run successfully, the coverage report 
  will be available in the ./coverage_html directory. Load the index.html
  file in your favourite browser to view the report. Example:
  
-     [lsc@stfc]$ firefox ./coverage_html/index.html
+    # firefox ./coverage_html/index.html
 
 When done, you can clean up your source directives by running "make vclean".
 
 
 ===============================================================================
-++ Installing from Subversion (developer's version) ++
+++ Installing from Git (developer's version) ++
 -------------------------------------------------------------------------------
 
 ##### Requirements: #####
@@ -141,7 +141,8 @@ Apart from the requirements listed above, you will also need:
 Before you can configure and install the project, you will first need to 
 process the pristine source through GNU Autotools. This can be done by running
 the following command:
-  ./autogen.sh
+
+    ./autogen.sh
   
 Upon successful bootstrapping, proceed by following the installation
 instructions above.
@@ -151,5 +152,6 @@ instructions above.
 
 From the developer's source tree, you can generate a distribution version by
 running the following command:
-  ./create_distribution.sh
+
+    ./create_distribution.sh
  

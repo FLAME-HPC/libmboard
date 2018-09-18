@@ -1,157 +1,161 @@
-# MESSAGE BOARD LIBRARY #
+# libmboard: the Message Board Library
         
-        
-The Message Board Library is a data management and communication
-library  developed  for  multi-agent  simulations  generated using the FLAME 
-framework.
+The Message Board Library is a data management and communication library
+developed  for  multi-agent  simulations  generated using the FLAME framework.
 
-As agents only interact with its  environment (and each other) via messages,
-the Message Board library  serves as a means of  achieving  parallelisation. 
-Agents  can  be  farmed  out  across    multiple  processors  and  simulated 
-concurrently,  while a coherent  simulation  is maintained through a unified 
-view of the distributed Message Boards.
+As agents only interact with its environment (and each other) via messages,
+the Message Board library serves as a means of achieving parallelisation.
+Agents can be farmed out across multiple processors and simulated concurrently,
+while a coherent simulation is maintained through a unified view of the
+distributed Message Boards.
 
-Synchronisation of the message boards are non-blocking as they are performed
-on a separate communication  thread, allowing much of the communication time 
-to be overlapped with computation.
+Synchronisation of the message boards are non-blocking as they are performed on
+a separate communication  thread, allowing much of the communication time to be
+overlapped with computation.
 
--------------------------------------------------------------------------------
+Copyright (c) 2007-2012 STFC Rutherford Appleton Laboratory
 
-      Copyright (c) 2007-2012 STFC Rutherford Appleton Laboratory
-      If you have any problems or enquiries, you should raise github issue.
+## Getting help
+
+If you have any problems or enquiries, you should 
+[raise a GitHub issue](https://github.com/FLAME-HPC/libmboard/issues).
       
-===============================================================================
-
-Installing from a distribution file
--------------------------------------------------------------------------------
-
-##### Requirements: #####
+## Requirements
 
 You will need the following:
- * a C compiler, e.g. GCC 
- * GNU Make
- * libtool 
- * Doxygen (optional, to generate documentation)
-   - available from http://www.doxygen.org
 
-To compile the parallel version of the library, you will also need:
- * An MPI Library, e.g. MPICH             
-   - available from http://www.mcs.anl.gov/research/projects/mpich2/
- * Support for pthreads                  
-   - see http://en.wikipedia.org/wiki/POSIX_Threads
+  * a **C compiler**, e.g. GCC 
+  * GNU **Make**
+  * **libtool**
 
-To compile the unit tests, you will also need:
- * CUnit                                    
-   - available from http://cunit.sourceforge.net/
+If you are building on Linux then you will likely already have those installed.
 
+If you want to build libmboard from a **clone of the libmboard Git repository** (very likely)
+then you will also need:
 
-##### Installation: #####
+  * GNU **Autoconf** (version >= 2.56)
+  * GNU **Automake** (version >= 1.8)
 
-1. Configure the source using the ./configure script. This will prepare the 
-   source code and check that all pre-requisites are met.
+Again, if you are building on Linux then you will likely already have those installed.
+
+To compile the **parallel version** of the library, you will also need:
+
+  * An **MPI** implementation, e.g. [MPICH](http://www.mcs.anl.gov/research/projects/mpich2/) or [OpenMPI](https://www.open-mpi.org)
+  * Support for [**pthreads**](http://en.wikipedia.org/wiki/POSIX_Threads)
+
+To generate the **documentation**, you will also need:
+
+  * [**Doxygen**](http://www.doxygen.org)
+
+To compile the **unit tests**, you will also need:
+
+  * [**CUnit**](http://cunit.sourceforge.net/)
+
+### Installation
+
+1. (Only) if you are trying to build libmboard from a clone of the libmboard Git repository,
+   you first need to run:
+
+       $ ./autogen.sh
+  
+2. Configure the source using the `./configure` script. 
+   This will prepare the source code and check that all pre-requisites are met.
    
-       # ./configure
+       $ ./configure
    
    **Changing installation directory:**
-   By default, the library will be configure for installation within your 
-   system (typically in /usr/local for Linux systems). This will allow users
-   to link to the library without having to specify the library location.
-   This however would require you to have administrator privileges (root).
+   By default, the library will be configure for installation within your
+   system (typically in `/usr/local` for Linux systems). This will allow users
+   to link to the library without having to specify the library location.  This
+   however would require you to have administrator privileges (root).
    
-   If you wish to change the installation destination (this may be necessary
-   if  you do  not  have root  access, of if you wish to  maintain  multiple
-   versions of the library), you can use the --prefix option to specify an
-   alternative installation location. 
+   If you wish to change the installation destination (this may be necessary if
+   you do not have root access, of if you wish to maintain multiple versions of
+   the library), you can use the `--prefix` option to specify an alternative
+   installation location. 
    
-       # ./configure --prefix=/home/lsc/build/libmboard
+       $ ./configure --prefix=/home/lsc/build/libmboard
    
    **Disabling some components:**
    You can disable the inclusion of unit tests (if you do not have CUnit)
-   installed by including the --disable-tests option.
+   by appending `--disable-tests` to the list of arguments to `./configure`.
    
-   You can also disable the compilation of parallel librarys (if you do not
-   have pthreads and MPI support) by using the --disable-paralle option.
+   You can also disable the compilation of parallel libraries (if you do not
+   have pthreads and MPI support) by appending the `--disable-parallel`
+   argument to `./configure`.
    
    **More options:**
-   For more configuration options, run "./configure --help".
+   For more configuration options, run 
+   
+       $ ./configure --help
    
 2. Once the configuration is successful, you can compile and install the 
    library.
    
-       # make 
-       # make install
+       $ make 
+       $ make install
    
-   
-For more details on installation, see the 'INSTALL' file.
+For more details on installation, see the [INSTALL](INSTALL) file.
 
+## Using the library
 
-##### Using the library: #####
+For information on how to use the library, view the User Manual. 
+The manual can be generated by running:
 
-For information on how to use the library, view the User Manual. The manual
-can be generated by running "make doc". 
+    $ make doc
 
-You can also browse the User Manual online at:
-http://www.softeng.cse.clrc.ac.uk/libmboard/
+You can then view the user documentation using:
 
+    $ firefox doc/user/html/index.html
 
-##### Running unit tests #####
+And view the developer documentation using:
 
-Compile the tests using "make test". Four tests binaries will be produced, 
-each testing different aspects of the library.
- * ./tests/run_test_utils    : Test utility code used by both serial and 
-                               parallel modules
- * ./tests/run_test_serial   : Test serial libmboard API
- * ./tests/run_test_parallel_utils  : Test utility code used only by the 
-                                      parallel modules
- * ./tests/run_test_parallel : Test parallel libmboard API 
- 
- You will need to run the parallel tests using your standard MPI job launcher.
- 
- 
- ##### Performing Test Coverage analysis #####
- 
- Configure the package using --enable-coverage, and compile the code using 
- the "coverage" target
+    $ firefox doc/develop/serial/html/index.html
+
+and 
+
+    $ firefox doc/develop/parallel/html/index.html
+
+You can also [browse the User Manual online](http://www.softeng.rl.ac.uk/st/projects/libmboard/) 
+although note that this may not correspond exactly to the version of libmboard you have installed.
+
+## Running unit tests
+
+Compile the tests using 
+
+    $ make test
     
-    # ./configure --enable-coverage
-    # make coverage
+Four tests binaries will be produced, each testing different aspects of the
+library.
+
+  * `./tests/run_test_utils`           : Test utility code used by both serial and parallel modules
+  * `./tests/run_test_serial`          : Test serial libmboard API
+  * `./tests/run_test_parallel_utils`  : Test utility code used only by the parallel modules
+  * `./tests/run_test_parallel`        : Test parallel libmboard API 
+ 
+You will need to run the parallel tests using your standard MPI job launcher (e.g. `mpirun` or `mpiexec`).
+ 
+## Performing Test Coverage analysis
+ 
+Configure the package using `--enable-coverage`, and compile the code using 
+ the `coverage` target:
     
- If the code compiles and the tests run successfully, the coverage report 
- will be available in the ./coverage_html directory. Load the index.html
- file in your favourite browser to view the report. Example:
+    $ ./configure --enable-coverage
+    $ make coverage
+    
+If the code compiles and the tests run successfully, 
+the coverage report will be available in the `./coverage_html` directory. 
+Load the `index.html` file in your favourite browser to view the report e.g.
  
-    # firefox ./coverage_html/index.html
+    $ firefox ./coverage_html/index.html
 
-When done, you can clean up your source directives by running "make vclean".
+When done, you can clean up your source directives by running
 
+    $ make vclean
 
-===============================================================================
-++ Installing from Git (developer's version) ++
--------------------------------------------------------------------------------
+## Creating Distributions
 
-##### Requirements: #####
+From a developer's source tree, you can generate a distribution version by
+running:
 
-Apart from the requirements listed above, you will also need:
- * GNU Autoconf (version >= 2.56)
- * GNU Automake (version >= 1.8)
- 
- 
-##### Bootstrapping: #####
-
-Before you can configure and install the project, you will first need to 
-process the pristine source through GNU Autotools. This can be done by running
-the following command:
-
-    ./autogen.sh
-  
-Upon successful bootstrapping, proceed by following the installation
-instructions above.
-
-
-##### Creating Distributions: #####
-
-From the developer's source tree, you can generate a distribution version by
-running the following command:
-
-    ./create_distribution.sh
- 
+    $ ./create_distribution.sh
